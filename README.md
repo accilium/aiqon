@@ -1,6 +1,6 @@
-# aiqon-site
+# aiqon
 
-Source for the [**aIQon**](https://accilium.github.io/aiqon-site/) page — accilium's
+Source for the [**aIQon**](https://accilium.github.io/aiqon/) page — accilium's
 afternoon on AI in Vienna. Season 3: Thursday, 22 October 2026, Juwel Wien.
 
 ## What this is
