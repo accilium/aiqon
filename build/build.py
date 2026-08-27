@@ -115,7 +115,9 @@ body{
    Viewport berechnet und nicht aus dem Container: sonst waere es rund. */
 .stage{display:flex;min-height:100svh;padding:var(--pad)}
 .term{
-  --fs-w:calc((100vw - 2 * var(--pad) - __PADSUM__px - 16px) / __TOTAL__);
+  /* Innenbreite, die dem Puffer bleibt. 16px Abzug fuer den Scrollbalken. */
+  --avail:calc(100vw - 2 * var(--pad) - __PADSUM__px - 16px);
+  --fs-w:calc(var(--avail) / __TOTAL__);
   --fs-h:calc((100svh - 2 * var(--pad) - __CHROME__px) / __LINEEM__);
   --fs:clamp(__FLOOR__px, var(--fs-w), __CAP__px);
   --gut:calc(var(--fs) * __GUT__);
@@ -152,7 +154,10 @@ body{
 .buf::before{content:"";position:absolute;left:calc(var(--fs) * 2.5);
   top:0;bottom:0;width:1px;background:var(--gutrule)}
 
-.ln{position:relative;padding-left:var(--gut);min-height:__LINEH__em;
+.ln{position:relative;
+  padding-left:calc(var(--gut) + var(--fs) * 1.2);
+  text-indent:calc(var(--fs) * -1.2);
+  min-height:__LINEH__em;
   white-space:pre-wrap;overflow-wrap:break-word}
 .ln::before{
   counter-increment:ln;content:counter(ln,decimal-leading-zero);
@@ -163,7 +168,9 @@ body{
 }
 /* Das Rasterlogo ist 58 Zeichen breit und darf nie umbrechen. Mit
    0.9655 der Textgroesse ist es genauso breit wie 56 Zeichen Text. */
-.ln.logo{font-size:calc(var(--fs) * .9655);white-space:pre}
+.ln.logo{white-space:pre;
+  font-size:min(calc(var(--fs) * .9655),
+    calc((var(--avail) - var(--gut)) / 34.8))}
 html.js .hid{display:none}
 
 /* ---------------- Syntax ---------------- */
@@ -181,6 +188,9 @@ html.js .hid{display:none}
 .p{color:var(--body)}
 .t,.n{color:var(--body)}
 .ts,.ns,.until{color:var(--text);font-weight:800}
+/* pre, nicht nowrap: nowrap kollabiert die Leerzeichen im Platzhalter,
+   dann steht tbd nicht mehr in einer Spalte. */
+.phg{white-space:pre}
 .ph{color:var(--dim)}
 .tbd{color:var(--teal)}
 /* Links behalten die Farbe des Werts, mint ist nur die Unterstreichung.
@@ -214,6 +224,7 @@ html.js .hid{display:none}
 .clock .lab{color:var(--muted);white-space:nowrap}
 .clock .cd{color:var(--mint);font-weight:800;white-space:nowrap}
 .clock .fmt{color:var(--dim);white-space:nowrap}
+@media (max-width:560px){.clock .fmt{display:none}}
 
 /* ---------------- Leisten ---------------- */
 .bar{display:flex;align-items:center;gap:9px;padding:12px __PADX__px;
@@ -247,6 +258,7 @@ html.js .hid{display:none}
   padding:3px 9px;cursor:pointer;white-space:nowrap}
 .status button:hover{color:var(--mint);border-color:rgba(84,219,192,.45)}
 .status button:focus-visible{outline:1px solid var(--mint);outline-offset:2px}
+@media (max-width:430px){.status .when-rsvp{display:none}}
 html.done [data-skip],html:not(.done) [data-replay]{display:none}
 html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 """
@@ -301,7 +313,7 @@ CLOCK = ('<section class="clock hid" data-step="300">'
          '</section>')
 
 STATUS = ('<footer class="status">'
-          '<span>RSVP bis 18.09.2026</span>'
+          '<span class="when-rsvp">RSVP bis 18.09.2026</span>'
           '<span class="grow"></span>'
           '<button type="button" data-skip>Ausgabe &uuml;berspringen</button>'
           '<button type="button" data-replay>Neu starten</button>'

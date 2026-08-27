@@ -115,10 +115,26 @@ breites Fenster, alles auf einem Bildschirm. 1413 px ergeben 13,4 px und
 - **Das Rasterlogo läuft mit 0.9655 der Textgröße.** Es ist 58 Zeichen
   breit, damit ist es genauso breit wie 56 Zeichen Text.
 
+## Auf schmalen Geräten
+
+74 Zeichen gehen auf einem Handy nicht in eine Zeile, egal wie klein die
+Schrift. Umgebrochen wird also, und das soll nach Absicht aussehen:
+
+- **Hängender Einzug.** Fortsetzungen einer umgebrochenen Zeile rücken um
+  zwei Zeichen ein, so wie ein Editor das macht. Ohne das sah es aus, als
+  würden die Zeilennummern nicht mehr mit dem Text zusammenpassen.
+- **Der Platzhalter hängt zusammen.** `[ gäste:  tbd ]` wandert als Ganzes
+  in die nächste Zeile. Vorher blieb die schließende Klammer allein zurück.
+  Dafür `white-space:pre`, nicht `nowrap`: `nowrap` kollabiert die
+  Leerzeichen und dann steht `tbd` nicht mehr in einer Spalte.
+- **Das Rasterlogo schrumpft mit.** Es ist auf `white-space:pre` gesetzt und
+  würde sonst rechts abgeschnitten. Unter etwa 340 px Fensterbreite wird es
+  dadurch kleiner als der Text.
+- Unter 560 px fällt der Formatschlüssel `dd:hh:mm:ss` weg, unter 430 px der
+  RSVP-Hinweis in der Fußleiste. Beides steht ohnehin im Puffer.
+
 ## Offen
 
-- Der Flyer als PNG nennt noch `accilium.github.io/aIQon`. Der Quelltext in
-  `flyer/why-attend.txt` steht jetzt auf `aiqon`, das Artwork braucht also
-  einen neuen Export.
-- Auf Handys unter etwa 560 px Breite bricht die längste Fließtextzeile um.
-  74 Zeichen gehen dort nicht in eine Zeile, egal wie klein die Schrift.
+Der Flyer als PNG nennt noch `accilium.github.io/aIQon`. Der Quelltext in
+`flyer/why-attend.txt` steht jetzt auf `aiqon`, das Artwork braucht also
+einen neuen Export.
