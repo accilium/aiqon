@@ -122,7 +122,7 @@ body{
   --fs:clamp(__FLOOR__px, var(--fs-w), __CAP__px);
   --gut:calc(var(--fs) * __GUT__);
   margin:auto;
-  width:calc(var(--fs) * __TOTAL__ + __PADSUM__px);
+  width:calc(var(--fs) * __TOTAL__ + __PADSUM__px + 4px);
   max-width:100%;
   /* Ohne min-width:0 zieht die Mindestbreite des Inhalts das Fenster
      auf, sobald eine breite Zeile auftaucht. Dann springt es. */
@@ -148,17 +148,18 @@ body{
 .buf{
   position:relative;
   counter-reset:ln;
+  width:max-content;min-width:100%;
   font-size:var(--fs);
   line-height:__LINEH__;
 }
 .buf::before{content:"";position:absolute;left:calc(var(--fs) * 2.5);
   top:0;bottom:0;width:1px;background:var(--gutrule)}
 
-.ln{position:relative;
-  padding-left:calc(var(--gut) + var(--fs) * 1.2);
-  text-indent:calc(var(--fs) * -1.2);
-  min-height:__LINEH__em;
-  white-space:pre-wrap;overflow-wrap:break-word}
+/* white-space:pre auf jeder Zeile: eine Zeilennummer ist immer genau
+   eine Zeile. Passt eine Zeile nicht in die Breite, scrollt der Puffer
+   seitlich, so wie ein Terminal ohne Wrap. */
+.ln{position:relative;padding-left:var(--gut);
+  min-height:__LINEH__em;white-space:pre}
 .ln::before{
   counter-increment:ln;content:counter(ln,decimal-leading-zero);
   position:absolute;left:0;top:0;width:calc(var(--fs) * 1.8);
@@ -168,8 +169,11 @@ body{
 }
 /* Das Rasterlogo ist 58 Zeichen breit und darf nie umbrechen. Mit
    0.9655 der Textgroesse ist es genauso breit wie 56 Zeichen Text. */
-.ln.logo{white-space:pre;
-  font-size:min(calc(var(--fs) * .9655),
+/* Das Rasterlogo ist ein Bild, kein Text: es soll auf einen Blick ganz
+   zu sehen sein und schrumpft deshalb in die sichtbare Breite, statt
+   wie die Textzeilen aus dem Bild zu laufen. 58 Zeichen a 0.6em sind
+   34.8 Breiten. */
+.ln.logo{font-size:min(calc(var(--fs) * .9655),
     calc((var(--avail) - var(--gut)) / 34.8))}
 html.js .hid{display:none}
 
@@ -242,7 +246,22 @@ html.js .hid{display:none}
   color:var(--dim);white-space:nowrap}
 @media (max-width:560px){.bar .when{display:none}}
 
-.screen{padding:clamp(18px,2.4vw,26px) __PADX__px clamp(20px,2.8vw,30px)}
+.screen{padding:clamp(18px,2.4vw,26px) __PADX__px clamp(20px,2.8vw,30px);
+  overflow-x:auto;overscroll-behavior-x:contain}
+/* Ist der Puffer breiter als das Fenster, blendet der Rand aus. Das sagt,
+   dass die Zeile weitergeht. mask statt Farbverlauf: so muss keine Farbe
+   zur halbtransparenten Flaeche passen. boot.js setzt die Klassen. */
+.screen.x-more{
+  -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 34px),transparent);
+  mask-image:linear-gradient(to right,#000 calc(100% - 34px),transparent)}
+.screen.x-back{
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 34px);
+  mask-image:linear-gradient(to right,transparent,#000 34px)}
+.screen.x-back.x-more{
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 34px,
+    #000 calc(100% - 34px),transparent);
+  mask-image:linear-gradient(to right,transparent,#000 34px,
+    #000 calc(100% - 34px),transparent)}
 
 .status{display:flex;align-items:center;gap:14px;padding:11px __PADX__px;
   flex-wrap:wrap;
