@@ -1,1 +1,4 @@
 .DS_Store
+
+# Zwischenschritt fuer assets/og.jpg, wird von build/build.py erzeugt
+build/og.build.html
