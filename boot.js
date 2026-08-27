@@ -21,6 +21,7 @@
   var still = window.matchMedia("(prefers-reduced-motion: reduce)");
 
   var timer = null;
+  var edgeCheck = null;     // wird unten gesetzt, sobald .screen bekannt ist
   var run = 0;              // Laufnummer, macht alte Timer wirkungslos
   var pinned = true;        // false, sobald von Hand gescrollt wurde
 
@@ -75,6 +76,7 @@
   function reveal(el) {
     el.classList.remove("hid");
     follow(el);
+    if (typeof edgeCheck === "function") edgeCheck();
   }
 
   function play(id) {
@@ -140,6 +142,26 @@
 
   if (skipBtn) skipBtn.addEventListener("click", finish);
   if (replayBtn) replayBtn.addEventListener("click", start);
+
+  /* -------------------------------------------------- Seitlicher Rand
+     Keine Zeile bricht um. Passt eine nicht in die Breite, scrollt der
+     Puffer seitlich. Damit das nicht nach abgeschnitten aussieht,
+     blendet die Kante aus, solange dort noch etwas steht. */
+
+  var screenEl = document.querySelector(".screen");
+  if (screenEl) {
+    var edges = function () {
+      var over = screenEl.scrollWidth - screenEl.clientWidth;
+      var x = screenEl.scrollLeft;
+      screenEl.classList.toggle("x-more", over > 2 && x < over - 2);
+      screenEl.classList.toggle("x-back", over > 2 && x > 2);
+    };
+    edgeCheck = edges;
+    screenEl.addEventListener("scroll", edges, { passive: true });
+    window.addEventListener("resize", edges);
+    if (window.ResizeObserver) new ResizeObserver(edges).observe(screenEl);
+    edges();
+  }
 
   /* -------------------------------------------------- Countdown
      NASA-Schreibweise: T-DDD:HH:MM:SS vor dem Start, T+ danach. Laeuft

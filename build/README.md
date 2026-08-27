@@ -117,21 +117,27 @@ breites Fenster, alles auf einem Bildschirm. 1413 px ergeben 13,4 px und
 
 ## Auf schmalen Geräten
 
-74 Zeichen gehen auf einem Handy nicht in eine Zeile, egal wie klein die
-Schrift. Umgebrochen wird also, und das soll nach Absicht aussehen:
+**Eine Zeilennummer ist immer genau eine Zeile.** Nichts bricht um, jede
+Zeile steht auf `white-space:pre`. 74 Zeichen gehen auf einem Handy nicht in
+eine Zeile, egal wie klein die Schrift, deshalb scrollt der Puffer dort
+seitlich, so wie ein Terminal ohne Wrap.
 
-- **Hängender Einzug.** Fortsetzungen einer umgebrochenen Zeile rücken um
-  zwei Zeichen ein, so wie ein Editor das macht. Ohne das sah es aus, als
-  würden die Zeilennummern nicht mehr mit dem Text zusammenpassen.
-- **Der Platzhalter hängt zusammen.** `[ gäste:  tbd ]` wandert als Ganzes
-  in die nächste Zeile. Vorher blieb die schließende Klammer allein zurück.
-  Dafür `white-space:pre`, nicht `nowrap`: `nowrap` kollabiert die
+- **Der Rand blendet aus**, solange seitlich noch etwas steht. Sonst sähe die
+  Zeile abgeschnitten aus. Umgesetzt als `mask-image` statt Farbverlauf, so
+  muss keine Farbe zur halbtransparenten Fläche passen; `boot.js` setzt die
+  Klassen `x-more` und `x-back` je nach Scrollposition.
+- **Das Rasterlogo schrumpft in die sichtbare Breite.** Es ist ein Bild und
+  soll auf einen Blick ganz zu sehen sein, im Gegensatz zum Text, der
+  scrollt. Unter etwa 340 px Fensterbreite wird es dadurch kleiner als der
+  Text.
+- **Der Platzhalter hängt zusammen.** `[ gäste:  tbd ]` steht auf
+  `white-space:pre` und nicht auf `nowrap`: `nowrap` kollabiert die
   Leerzeichen und dann steht `tbd` nicht mehr in einer Spalte.
-- **Das Rasterlogo schrumpft mit.** Es ist auf `white-space:pre` gesetzt und
-  würde sonst rechts abgeschnitten. Unter etwa 340 px Fensterbreite wird es
-  dadurch kleiner als der Text.
 - Unter 560 px fällt der Formatschlüssel `dd:hh:mm:ss` weg, unter 430 px der
   RSVP-Hinweis in der Fußleiste. Beides steht ohnehin im Puffer.
+
+Gemessen bei 320, 375, 430, 768 und 1100 px: 57 Zeilen, keine davon höher
+als eine Zeile. Ab etwa 470 px Innenbreite scrollt nichts mehr.
 
 ## Offen
 

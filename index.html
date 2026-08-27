@@ -70,7 +70,7 @@ body{
   --fs:clamp(9.5px, var(--fs-w), 16px);
   --gut:calc(var(--fs) * 3.3);
   margin:auto;
-  width:calc(var(--fs) * 47.70 + 54px);
+  width:calc(var(--fs) * 47.70 + 54px + 4px);
   max-width:100%;
   /* Ohne min-width:0 zieht die Mindestbreite des Inhalts das Fenster
      auf, sobald eine breite Zeile auftaucht. Dann springt es. */
@@ -96,17 +96,18 @@ body{
 .buf{
   position:relative;
   counter-reset:ln;
+  width:max-content;min-width:100%;
   font-size:var(--fs);
   line-height:1.52;
 }
 .buf::before{content:"";position:absolute;left:calc(var(--fs) * 2.5);
   top:0;bottom:0;width:1px;background:var(--gutrule)}
 
-.ln{position:relative;
-  padding-left:calc(var(--gut) + var(--fs) * 1.2);
-  text-indent:calc(var(--fs) * -1.2);
-  min-height:1.52em;
-  white-space:pre-wrap;overflow-wrap:break-word}
+/* white-space:pre auf jeder Zeile: eine Zeilennummer ist immer genau
+   eine Zeile. Passt eine Zeile nicht in die Breite, scrollt der Puffer
+   seitlich, so wie ein Terminal ohne Wrap. */
+.ln{position:relative;padding-left:var(--gut);
+  min-height:1.52em;white-space:pre}
 .ln::before{
   counter-increment:ln;content:counter(ln,decimal-leading-zero);
   position:absolute;left:0;top:0;width:calc(var(--fs) * 1.8);
@@ -116,8 +117,11 @@ body{
 }
 /* Das Rasterlogo ist 58 Zeichen breit und darf nie umbrechen. Mit
    0.9655 der Textgroesse ist es genauso breit wie 56 Zeichen Text. */
-.ln.logo{white-space:pre;
-  font-size:min(calc(var(--fs) * .9655),
+/* Das Rasterlogo ist ein Bild, kein Text: es soll auf einen Blick ganz
+   zu sehen sein und schrumpft deshalb in die sichtbare Breite, statt
+   wie die Textzeilen aus dem Bild zu laufen. 58 Zeichen a 0.6em sind
+   34.8 Breiten. */
+.ln.logo{font-size:min(calc(var(--fs) * .9655),
     calc((var(--avail) - var(--gut)) / 34.8))}
 html.js .hid{display:none}
 
@@ -190,7 +194,22 @@ html.js .hid{display:none}
   color:var(--dim);white-space:nowrap}
 @media (max-width:560px){.bar .when{display:none}}
 
-.screen{padding:clamp(18px,2.4vw,26px) 26px clamp(20px,2.8vw,30px)}
+.screen{padding:clamp(18px,2.4vw,26px) 26px clamp(20px,2.8vw,30px);
+  overflow-x:auto;overscroll-behavior-x:contain}
+/* Ist der Puffer breiter als das Fenster, blendet der Rand aus. Das sagt,
+   dass die Zeile weitergeht. mask statt Farbverlauf: so muss keine Farbe
+   zur halbtransparenten Flaeche passen. boot.js setzt die Klassen. */
+.screen.x-more{
+  -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 34px),transparent);
+  mask-image:linear-gradient(to right,#000 calc(100% - 34px),transparent)}
+.screen.x-back{
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 34px);
+  mask-image:linear-gradient(to right,transparent,#000 34px)}
+.screen.x-back.x-more{
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 34px,
+    #000 calc(100% - 34px),transparent);
+  mask-image:linear-gradient(to right,transparent,#000 34px,
+    #000 calc(100% - 34px),transparent)}
 
 .status{display:flex;align-items:center;gap:14px;padding:11px 26px;
   flex-wrap:wrap;
@@ -269,7 +288,7 @@ html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 <div class="ln" data-step="140"><span class="k">deadline:  </span><span class="v">2026-09-18</span></div>
 <div class="ln" data-step="140" data-pause="460"><span class="k">zugang:    </span><span class="v">persönliche einladung</span></div>
 <div class="ln" data-step="170"></div>
-<div class="ln end"><span class="ps">aiqon ~ % </span><span class="caret"></span></div></div></div></div><section class="clock hid" data-step="300"><span class="lab">countdown to doors open</span><span class="cd" data-until="2026-10-22T13:00:00+02:00" aria-live="off">T-056:00:00:00</span><span class="fmt">dd:hh:mm:ss</span></section><footer class="status"><span class="when-rsvp">RSVP bis 18.09.2026</span><span class="grow"></span><button type="button" data-skip>Ausgabe &uuml;berspringen</button><button type="button" data-replay>Neu starten</button><img class="mark" src="assets/accilium-logo-white.svg" alt="accilium"></footer></div></main>
+<div class="ln end"><span class="ps">aiqon ~ % </span><span class="caret"></span></div></div></div></div><section class="clock hid" data-step="300"><span class="lab">countdown to doors open</span><span class="cd" data-until="2026-10-22T13:00:00+02:00" aria-live="off">T-055:00:00:00</span><span class="fmt">dd:hh:mm:ss</span></section><footer class="status"><span class="when-rsvp">RSVP bis 18.09.2026</span><span class="grow"></span><button type="button" data-skip>Ausgabe &uuml;berspringen</button><button type="button" data-replay>Neu starten</button><img class="mark" src="assets/accilium-logo-white.svg" alt="accilium"></footer></div></main>
 <script src="boot.js"></script>
 </body>
 </html>
