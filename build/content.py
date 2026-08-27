@@ -80,8 +80,11 @@ def slot(time, title, ph_key=None, tail=None, strong=False, step=96, pause=None)
     n = "ns" if strong else "n"
     if ph_key:
         row += f'<span class="{n}">{esc(title.ljust(27))}</span>'
-        row += (f'<span class="ph">{esc(("[ " + ph_key + ":").ljust(10))}</span>'
-                f'<span class="tbd">tbd</span><span class="ph"> ]</span>')
+        # Der Platzhalter haengt in einer Klammer zusammen. Sonst bleibt
+        # auf schmalen Geraeten die schliessende Klammer allein zurueck.
+        row += (f'<span class="phg"><span class="ph">'
+                f'{esc(("[ " + ph_key + ":").ljust(10))}</span>'
+                f'<span class="tbd">tbd</span><span class="ph"> ]</span></span>')
     else:
         row += f'<span class="{n}">{esc(title)}</span>'
         if tail:
