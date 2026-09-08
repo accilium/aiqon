@@ -169,20 +169,18 @@ def fig(title, pair):
     """Titelzeile eines Falls mit den beiden Portraits davor."""
     imgs = "".join(
         f'<img class="pic {c}" src="assets/team/{f}.png" alt="{esc(n)}">'
-        for c, (f, n) in zip(("a", "b"), pair))
+        for c, (f, n, _) in zip(("a", "b"), pair))
     return ln(f'{imgs}{" " * FIG_INDENT}<span class="h">{esc(title)}</span>',
               cls="fig", step=140)
 
 
 def case_lines(title, pair, problem, solution):
-    names = ", ".join(n for _, n in pair)
     pad = " " * FIG_INDENT
-    rows = [
-        fig(title, pair),
-        ln(f'{pad}<span class="dim">{esc(names)}</span>', step=90),
-        blank(),
-        ln(f'{pad}<span class="k">problem:</span>', step=90),
-    ]
+    rows = [fig(title, pair)]
+    rows += [ln(f'{pad}<span class="dim">{esc(n + ", " + role)}</span>', step=90)
+             for _, n, role in pair]
+    rows += [blank(),
+        ln(f'{pad}<span class="k">problem:</span>', step=90)]
     rows += [ln(f'{pad}<span class="p">{esc(t)}</span>', step=70)
              for t in textwrap.wrap(problem, CASE_WIDTH)]
     rows += [blank(), ln(f'{pad}<span class="k">lösung:</span>', step=90)]
@@ -191,12 +189,12 @@ def case_lines(title, pair, problem, solution):
     return rows
 
 
-PETER = ("peter-allan", "Peter Allan")
-LEO = ("leonhard-kuehne-hellmessen", "Leonhard Kühne-Hellmessen")
-MARY = ("mary-koryakina", "Mary Koryakina")
-ALEX = ("alex-rinner", "Alex Rinner")
-SEBASTIAN = ("sebastian-kindl", "Sebastian Kindl")
-DAVID = ("david-schneiderbauer", "David Schneiderbauer")
+PETER = ("peter-allan", "Peter Allan", "")
+LEO = ("leonhard-kuehne-hellmessen", "Leonhard Kühne-Hellmessen", "Principal")
+MARY = ("mary-koryakina", "Mary Koryakina", "Forward Deployed Engineer")
+ALEX = ("alex-rinner", "Alex Rinner", "Senior Manager")
+SEBASTIAN = ("sebastian-kindl", "Sebastian Kindl", "Forward Deployed Engineer")
+DAVID = ("david-schneiderbauer", "David Schneiderbauer", "Associate Partner")
 
 # Platzhalter bis zur Shortlist. Text aus aiqon-orga/demo-candidates.md,
 # Abschnitt "Kurztexte fuer Save the Date und Landing Page".

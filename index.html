@@ -66,7 +66,7 @@ body{
   /* Innenbreite, die dem Puffer bleibt. 16px Abzug fuer den Scrollbalken. */
   --avail:calc(100vw - 2 * var(--pad) - 54px - 16px);
   --fs-w:calc(var(--avail) / 49.50);
-  --fs-h:calc((100svh - 2 * var(--pad) - 168px) / 191.52);
+  --fs-h:calc((100svh - 2 * var(--pad) - 168px) / 196.08);
   --fs:clamp(9.5px, var(--fs-w), 16px);
   --gut:calc(var(--fs) * 3.3);
   margin:auto;
@@ -88,9 +88,9 @@ body{
    --fs-w: so gross, dass die breiteste Zeile plus Nummernspalte in die
            Viewportbreite passt.
    --fs-h: so gross, dass alle Zeilen plus Leisten in die Viewporthoehe
-           passen. Wird nur ab 2076px Viewporthoehe benutzt, weil
+           passen. Wird nur ab 2119px Viewporthoehe benutzt, weil
            die Schrift darunter zu klein wuerde. Dann scrollt die Seite. */
-@media (min-height:2076px){
+@media (min-height:2119px){
   .term{--fs:clamp(9.5px, min(var(--fs-w), var(--fs-h)), 16px)}
 }
 .buf{
@@ -306,7 +306,8 @@ html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 <div class="ln" data-step="110" data-pause="200"><span class="hh">## </span><span class="h">live use case I</span></div>
 <div class="ln" data-step="140"></div>
 <div class="ln fig" data-step="140"><img class="pic a" src="assets/team/leonhard-kuehne-hellmessen.png" alt="Leonhard Kühne-Hellmessen"><img class="pic b" src="assets/team/mary-koryakina.png" alt="Mary Koryakina">                            <span class="h">Der Projektmanager, der nie schläft</span></div>
-<div class="ln" data-step="90">                            <span class="dim">Leonhard Kühne-Hellmessen, Mary Koryakina</span></div>
+<div class="ln" data-step="90">                            <span class="dim">Leonhard Kühne-Hellmessen, Principal</span></div>
+<div class="ln" data-step="90">                            <span class="dim">Mary Koryakina, Forward Deployed Engineer</span></div>
 <div class="ln" data-step="90"></div>
 <div class="ln" data-step="90">                            <span class="k">problem:</span></div>
 <div class="ln" data-step="70">                            <span class="p">Ein Projekt unter Zeitdruck. Termine stehen im</span></div>
@@ -325,7 +326,8 @@ html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 <div class="ln" data-step="110" data-pause="200"><span class="hh">## </span><span class="h">live use case II</span></div>
 <div class="ln" data-step="140"></div>
 <div class="ln fig" data-step="140"><img class="pic a" src="assets/team/alex-rinner.png" alt="Alex Rinner"><img class="pic b" src="assets/team/sebastian-kindl.png" alt="Sebastian Kindl">                            <span class="h">Das Wissen der besten Kollegin für das ganze Team</span></div>
-<div class="ln" data-step="90">                            <span class="dim">Alex Rinner, Sebastian Kindl</span></div>
+<div class="ln" data-step="90">                            <span class="dim">Alex Rinner, Senior Manager</span></div>
+<div class="ln" data-step="90">                            <span class="dim">Sebastian Kindl, Forward Deployed Engineer</span></div>
 <div class="ln" data-step="90"></div>
 <div class="ln" data-step="90">                            <span class="k">problem:</span></div>
 <div class="ln" data-step="70">                            <span class="p">Der Angebotsvergleich funktioniert, solange</span></div>
@@ -345,7 +347,8 @@ html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 <div class="ln" data-step="110" data-pause="200"><span class="hh">## </span><span class="h">live use case III</span></div>
 <div class="ln" data-step="140"></div>
 <div class="ln fig" data-step="140"><img class="pic a" src="assets/team/david-schneiderbauer.png" alt="David Schneiderbauer"><img class="pic b" src="assets/team/mary-koryakina.png" alt="Mary Koryakina">                            <span class="h">Einmal erzählen statt überall eintragen</span></div>
-<div class="ln" data-step="90">                            <span class="dim">David Schneiderbauer, Mary Koryakina</span></div>
+<div class="ln" data-step="90">                            <span class="dim">David Schneiderbauer, Associate Partner</span></div>
+<div class="ln" data-step="90">                            <span class="dim">Mary Koryakina, Forward Deployed Engineer</span></div>
 <div class="ln" data-step="90"></div>
 <div class="ln" data-step="90">                            <span class="k">problem:</span></div>
 <div class="ln" data-step="70">                            <span class="p">Nach dem Kundentermin weiß die Führungskraft</span></div>
