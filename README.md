@@ -44,8 +44,8 @@ does. Two consequences worth knowing before editing:
   nothing ever wraps on a desktop screen. The width depends only on the
   viewport, never on the content, so it cannot jump while the page boots.
 - **On a tall enough viewport the page fits on one screen.** It scales the
-  type down so all 126 lines plus the bars fit, and the window shrinks with
-  it. Since the use cases went in, that needs about 2060 px, so on a normal
+  type down so all 129 lines plus the bars fit, and the window shrinks with
+  it. Since the use cases went in, that needs about 2100 px, so on a normal
   screen the type stays at 16 px and the page scrolls.
 
 ## Local preview
