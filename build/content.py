@@ -5,6 +5,7 @@ Alles hier drin steht auch auf dem Flyer. Nichts dazu erfinden.
 """
 import html
 import pathlib
+import textwrap
 
 HERE = pathlib.Path(__file__).resolve().parent
 LOGO = (HERE / "logo-ascii.txt").read_text(encoding="utf-8") \
@@ -141,14 +142,96 @@ BLOCK_PROGRAMM = [
     slot("13:00", "empfang", strong=True),
     slot("13:30", "begrüßung"),
     slot("13:40", "fireside chat + q&a", ph_key="gäste"),
-    slot("14:10", "live use case I", ph_key="case"),
+    slot("14:10", "live use case I"),
     slot("14:30", "coffee break", strong=True),
-    slot("14:50", "live use case II", ph_key="case"),
-    slot("15:10", "live use case III", ph_key="case"),
+    slot("14:50", "live use case II"),
+    slot("15:10", "live use case III"),
     slot("15:30", "closing chat + q&a", ph_key="gäste"),
     slot("16:00", "flying dinner + networking", tail="  ->  18:00",
          strong=True, pause=560),
 ]
+
+# ---------------------------------------------------------------- Use Cases
+# Zwei Portraits, gerastert wie das Hintergrundbild, stehen links neben
+# den ersten fuenf Zeilen eines Falls. Sie haengen an der Titelzeile und
+# sind so hoch wie fuenf Zeilen; die vier Zeilen darunter ruecken per
+# Leerzeichen ein, damit das Raster stehen bleibt. Textbreite: 46 Zeichen.
+FIG_LINES = 5
+FIG_INDENT = 28
+CASE_WIDTH = 74 - FIG_INDENT
+
+
+def fig(title, pair):
+    """Titelzeile eines Falls mit den beiden Portraits davor."""
+    imgs = "".join(
+        f'<img class="pic {c}" src="assets/team/{f}.png" alt="{esc(n)}">'
+        for c, (f, n) in zip(("a", "b"), pair))
+    return ln(f'{imgs}{" " * FIG_INDENT}<span class="h">{esc(title)}</span>',
+              cls="fig", step=140)
+
+
+def case_lines(title, pair, problem, solution):
+    names = ", ".join(n for _, n in pair)
+    pad = " " * FIG_INDENT
+    rows = [
+        fig(title, pair),
+        ln(f'{pad}<span class="dim">{esc(names)}</span>', step=90),
+        blank(),
+        ln(f'{pad}<span class="k">problem:</span>', step=90),
+    ]
+    rows += [ln(f'{pad}<span class="p">{esc(t)}</span>', step=70)
+             for t in textwrap.wrap(problem, CASE_WIDTH)]
+    rows += [blank(), ln(f'{pad}<span class="k">lösung:</span>', step=90)]
+    rows += [ln(f'{pad}<span class="p">{esc(t)}</span>', step=70)
+             for t in textwrap.wrap(solution, CASE_WIDTH)]
+    return rows
+
+
+LEO = ("leonhard-kuehne-hellmessen", "Leonhard Kühne-Hellmessen")
+MARY = ("mary-koryakina", "Mary Koryakina")
+ALEX = ("alex-rinner", "Alex Rinner")
+SEBASTIAN = ("sebastian-kindl", "Sebastian Kindl")
+DAVID = ("david-schneiderbauer", "David Schneiderbauer")
+
+# Platzhalter bis zur Shortlist. Text aus aiqon-orga/demo-candidates.md,
+# Abschnitt "Kurztexte fuer Save the Date und Landing Page".
+CASES = [
+    ("live use case I", "Der Projektmanager, der nie schläft", (LEO, MARY),
+     "Ein Projekt unter Zeitdruck. Termine stehen im Chat, Aufgaben in "
+     "einer Tabelle, Entscheidungen in Köpfen. Der Projektlead verbringt "
+     "den Tag damit, den Stand zusammenzusuchen.",
+     "Ein Agent wird Mitglied im Teams-Chat, liest den Projektordner mit "
+     "und hält Fristen, Aufgaben und offene Punkte nach. Freitags schickt "
+     "er den Status von selbst. Was entschieden wird, entscheidet das Team."),
+    ("live use case II", "Das Wissen der besten Kollegin für das ganze Team",
+     (ALEX, SEBASTIAN),
+     "Der Angebotsvergleich funktioniert, solange eine bestimmte Kollegin "
+     "ihn macht. Sie weiß, dass Wartung und Mindestabnahme mitgerechnet "
+     "werden müssen. Ist sie im Urlaub, fehlen diese Zeilen in der Tabelle.",
+     "Die Kollegin erklärt ihre Regeln einmal. Daraus entsteht eine "
+     "gespeicherte Arbeitsanweisung, die beim nächsten Fall in einer neuen "
+     "Sitzung greift. Wer im Raum eine Regel ergänzen will, sieht sofort, "
+     "was sich am Ergebnis ändert."),
+    ("live use case III", "Einmal erzählen statt überall eintragen",
+     (DAVID, MARY),
+     "Nach dem Kundentermin weiß die Führungskraft viel: eine Zusage mit "
+     "Frist, ein Termin ohne Datum, eine Folie, die nicht mehr stimmt. Am "
+     "Abend landen davon zwei Zeilen in der Aufgabenliste. Der Rest bleibt "
+     "im Kopf.",
+     "Auf der Rückfahrt eine Sprachnachricht in Teams, 90 Sekunden, ohne "
+     "Ordnung. Der Assistent macht daraus Termine, Aufgaben und Notizen am "
+     "Dokument und zitiert alles, was er nicht zuordnen konnte. Geschrieben "
+     "wird erst nach Bestätigung."),
+]
+
+BLOCK_CASES = [cmd("aiq show", " --use-cases"), blank(step=210)]
+for i, (slot_name, title, pair, problem, solution) in enumerate(CASES):
+    if i:
+        BLOCK_CASES.append(blank(step=140))
+    BLOCK_CASES.append(head2(slot_name))
+    BLOCK_CASES.append(blank(step=140))
+    BLOCK_CASES.extend(case_lines(title, pair, problem, solution))
+BLOCK_CASES[-1] = BLOCK_CASES[-1].replace('class="ln"', 'class="ln" data-pause="560"', 1)
 
 # Kein oeffentlicher Weg zur Teilnahme. Eingeladen wird persoenlich per
 # Mail mit .ics im Anhang, deshalb steht hier weder Link noch Formular
@@ -177,7 +260,8 @@ PROMPT_END = ln('<span class="ps">aiqon ~ % </span><span class="caret"></span>',
 # in die zweite Spalte starten kann.
 SEP = blank(step=170)
 
-BLOCKS = [BLOCK_LOGO, BLOCK_FACTS, BLOCK_EXPECT, BLOCK_PROGRAMM, BLOCK_RSVP]
+BLOCKS = [BLOCK_LOGO, BLOCK_FACTS, BLOCK_EXPECT, BLOCK_PROGRAMM, BLOCK_CASES,
+          BLOCK_RSVP]
 
 # Variante B: linke Spalte Logo und Hard Facts, rechte Spalte Inhalt,
 # Programm und RSVP. Teilt die Zeilen etwa 25 zu 30.

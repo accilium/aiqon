@@ -177,6 +177,18 @@ body{
     calc((var(--avail) - var(--gut)) / 34.8))}
 html.js .hid{display:none}
 
+/* ---------------- Use Cases ----------------
+   Zwei Portraits haengen an der Titelzeile eines Falls und sind fuenf
+   Zeilen hoch. Die Zeilen darunter ruecken per Leerzeichen ein. Die
+   Bilder sind 144 px gerastert, in der Palette der Seite; sie werden
+   weich skaliert, damit das Raster bei jeder Groesse ruhig bleibt. */
+.ln.fig{overflow:visible}
+.ln.fig .pic{position:absolute;top:.1em;left:var(--gut);
+  width:7.6em;height:7.6em;border-radius:2px;
+  outline:1px solid rgba(84,219,192,.12)}
+.ln.fig .pic.b{left:calc(var(--gut) + 8.2em)}
+
+
 /* ---------------- Syntax ---------------- */
 .ps{color:var(--muted)}
 .c1{color:var(--mint)}

@@ -65,12 +65,12 @@ body{
 .term{
   /* Innenbreite, die dem Puffer bleibt. 16px Abzug fuer den Scrollbalken. */
   --avail:calc(100vw - 2 * var(--pad) - 54px - 16px);
-  --fs-w:calc(var(--avail) / 47.70);
-  --fs-h:calc((100svh - 2 * var(--pad) - 168px) / 86.64);
+  --fs-w:calc(var(--avail) / 49.50);
+  --fs-h:calc((100svh - 2 * var(--pad) - 168px) / 179.36);
   --fs:clamp(9.5px, var(--fs-w), 16px);
   --gut:calc(var(--fs) * 3.3);
   margin:auto;
-  width:calc(var(--fs) * 47.70 + 54px + 4px);
+  width:calc(var(--fs) * 49.50 + 54px + 4px);
   max-width:100%;
   /* Ohne min-width:0 zieht die Mindestbreite des Inhalts das Fenster
      auf, sobald eine breite Zeile auftaucht. Dann springt es. */
@@ -88,9 +88,9 @@ body{
    --fs-w: so gross, dass die breiteste Zeile plus Nummernspalte in die
            Viewportbreite passt.
    --fs-h: so gross, dass alle Zeilen plus Leisten in die Viewporthoehe
-           passen. Wird nur ab 1080px Viewporthoehe benutzt, weil
+           passen. Wird nur ab 1960px Viewporthoehe benutzt, weil
            die Schrift darunter zu klein wuerde. Dann scrollt die Seite. */
-@media (min-height:1080px){
+@media (min-height:1960px){
   .term{--fs:clamp(9.5px, min(var(--fs-w), var(--fs-h)), 16px)}
 }
 .buf{
@@ -124,6 +124,18 @@ body{
 .ln.logo{font-size:min(calc(var(--fs) * .9655),
     calc((var(--avail) - var(--gut)) / 34.8))}
 html.js .hid{display:none}
+
+/* ---------------- Use Cases ----------------
+   Zwei Portraits haengen an der Titelzeile eines Falls und sind fuenf
+   Zeilen hoch. Die Zeilen darunter ruecken per Leerzeichen ein. Die
+   Bilder sind 144 px gerastert, in der Palette der Seite; sie werden
+   weich skaliert, damit das Raster bei jeder Groesse ruhig bleibt. */
+.ln.fig{overflow:visible}
+.ln.fig .pic{position:absolute;top:.1em;left:var(--gut);
+  width:7.6em;height:7.6em;border-radius:2px;
+  outline:1px solid rgba(84,219,192,.12)}
+.ln.fig .pic.b{left:calc(var(--gut) + 8.2em)}
+
 
 /* ---------------- Syntax ---------------- */
 .ps{color:var(--muted)}
@@ -274,12 +286,73 @@ html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 <div class="ln" data-step="96"><span class="ts">13:00</span><span class="sp">   </span><span class="ns">empfang</span></div>
 <div class="ln" data-step="96"><span class="t">13:30</span><span class="sp">   </span><span class="n">begrüßung</span></div>
 <div class="ln" data-step="96"><span class="t">13:40</span><span class="sp">   </span><span class="n">fireside chat + q&amp;a        </span><span class="phg"><span class="ph">[ gäste:  </span><span class="tbd">tbd</span><span class="ph"> ]</span></span></div>
-<div class="ln" data-step="96"><span class="t">14:10</span><span class="sp">   </span><span class="n">live use case I            </span><span class="phg"><span class="ph">[ case:   </span><span class="tbd">tbd</span><span class="ph"> ]</span></span></div>
+<div class="ln" data-step="96"><span class="t">14:10</span><span class="sp">   </span><span class="n">live use case I</span></div>
 <div class="ln" data-step="96"><span class="ts">14:30</span><span class="sp">   </span><span class="ns">coffee break</span></div>
-<div class="ln" data-step="96"><span class="t">14:50</span><span class="sp">   </span><span class="n">live use case II           </span><span class="phg"><span class="ph">[ case:   </span><span class="tbd">tbd</span><span class="ph"> ]</span></span></div>
-<div class="ln" data-step="96"><span class="t">15:10</span><span class="sp">   </span><span class="n">live use case III          </span><span class="phg"><span class="ph">[ case:   </span><span class="tbd">tbd</span><span class="ph"> ]</span></span></div>
+<div class="ln" data-step="96"><span class="t">14:50</span><span class="sp">   </span><span class="n">live use case II</span></div>
+<div class="ln" data-step="96"><span class="t">15:10</span><span class="sp">   </span><span class="n">live use case III</span></div>
 <div class="ln" data-step="96"><span class="t">15:30</span><span class="sp">   </span><span class="n">closing chat + q&amp;a         </span><span class="phg"><span class="ph">[ gäste:  </span><span class="tbd">tbd</span><span class="ph"> ]</span></span></div>
 <div class="ln" data-step="96" data-pause="560"><span class="ts">16:00</span><span class="sp">   </span><span class="ns">flying dinner + networking</span><span class="until">  -&gt;  18:00</span></div>
+<div class="ln" data-step="170"></div>
+<div class="ln cmd"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq show</span><span class="c2"> --use-cases</span></span></div>
+<div class="ln" data-step="210"></div>
+<div class="ln" data-step="110" data-pause="200"><span class="hh">## </span><span class="h">live use case I</span></div>
+<div class="ln" data-step="140"></div>
+<div class="ln fig" data-step="140"><img class="pic a" src="assets/team/leonhard-kuehne-hellmessen.png" alt="Leonhard Kühne-Hellmessen"><img class="pic b" src="assets/team/mary-koryakina.png" alt="Mary Koryakina">                            <span class="h">Der Projektmanager, der nie schläft</span></div>
+<div class="ln" data-step="90">                            <span class="dim">Leonhard Kühne-Hellmessen, Mary Koryakina</span></div>
+<div class="ln" data-step="90"></div>
+<div class="ln" data-step="90">                            <span class="k">problem:</span></div>
+<div class="ln" data-step="70">                            <span class="p">Ein Projekt unter Zeitdruck. Termine stehen im</span></div>
+<div class="ln" data-step="70">                            <span class="p">Chat, Aufgaben in einer Tabelle,</span></div>
+<div class="ln" data-step="70">                            <span class="p">Entscheidungen in Köpfen. Der Projektlead</span></div>
+<div class="ln" data-step="70">                            <span class="p">verbringt den Tag damit, den Stand</span></div>
+<div class="ln" data-step="70">                            <span class="p">zusammenzusuchen.</span></div>
+<div class="ln" data-step="90"></div>
+<div class="ln" data-step="90">                            <span class="k">lösung:</span></div>
+<div class="ln" data-step="70">                            <span class="p">Ein Agent wird Mitglied im Teams-Chat, liest</span></div>
+<div class="ln" data-step="70">                            <span class="p">den Projektordner mit und hält Fristen,</span></div>
+<div class="ln" data-step="70">                            <span class="p">Aufgaben und offene Punkte nach. Freitags</span></div>
+<div class="ln" data-step="70">                            <span class="p">schickt er den Status von selbst. Was</span></div>
+<div class="ln" data-step="70">                            <span class="p">entschieden wird, entscheidet das Team.</span></div>
+<div class="ln" data-step="140"></div>
+<div class="ln" data-step="110" data-pause="200"><span class="hh">## </span><span class="h">live use case II</span></div>
+<div class="ln" data-step="140"></div>
+<div class="ln fig" data-step="140"><img class="pic a" src="assets/team/alex-rinner.png" alt="Alex Rinner"><img class="pic b" src="assets/team/sebastian-kindl.png" alt="Sebastian Kindl">                            <span class="h">Das Wissen der besten Kollegin für das ganze Team</span></div>
+<div class="ln" data-step="90">                            <span class="dim">Alex Rinner, Sebastian Kindl</span></div>
+<div class="ln" data-step="90"></div>
+<div class="ln" data-step="90">                            <span class="k">problem:</span></div>
+<div class="ln" data-step="70">                            <span class="p">Der Angebotsvergleich funktioniert, solange</span></div>
+<div class="ln" data-step="70">                            <span class="p">eine bestimmte Kollegin ihn macht. Sie weiß,</span></div>
+<div class="ln" data-step="70">                            <span class="p">dass Wartung und Mindestabnahme mitgerechnet</span></div>
+<div class="ln" data-step="70">                            <span class="p">werden müssen. Ist sie im Urlaub, fehlen diese</span></div>
+<div class="ln" data-step="70">                            <span class="p">Zeilen in der Tabelle.</span></div>
+<div class="ln" data-step="90"></div>
+<div class="ln" data-step="90">                            <span class="k">lösung:</span></div>
+<div class="ln" data-step="70">                            <span class="p">Die Kollegin erklärt ihre Regeln einmal.</span></div>
+<div class="ln" data-step="70">                            <span class="p">Daraus entsteht eine gespeicherte</span></div>
+<div class="ln" data-step="70">                            <span class="p">Arbeitsanweisung, die beim nächsten Fall in</span></div>
+<div class="ln" data-step="70">                            <span class="p">einer neuen Sitzung greift. Wer im Raum eine</span></div>
+<div class="ln" data-step="70">                            <span class="p">Regel ergänzen will, sieht sofort, was sich am</span></div>
+<div class="ln" data-step="70">                            <span class="p">Ergebnis ändert.</span></div>
+<div class="ln" data-step="140"></div>
+<div class="ln" data-step="110" data-pause="200"><span class="hh">## </span><span class="h">live use case III</span></div>
+<div class="ln" data-step="140"></div>
+<div class="ln fig" data-step="140"><img class="pic a" src="assets/team/david-schneiderbauer.png" alt="David Schneiderbauer"><img class="pic b" src="assets/team/mary-koryakina.png" alt="Mary Koryakina">                            <span class="h">Einmal erzählen statt überall eintragen</span></div>
+<div class="ln" data-step="90">                            <span class="dim">David Schneiderbauer, Mary Koryakina</span></div>
+<div class="ln" data-step="90"></div>
+<div class="ln" data-step="90">                            <span class="k">problem:</span></div>
+<div class="ln" data-step="70">                            <span class="p">Nach dem Kundentermin weiß die Führungskraft</span></div>
+<div class="ln" data-step="70">                            <span class="p">viel: eine Zusage mit Frist, ein Termin ohne</span></div>
+<div class="ln" data-step="70">                            <span class="p">Datum, eine Folie, die nicht mehr stimmt. Am</span></div>
+<div class="ln" data-step="70">                            <span class="p">Abend landen davon zwei Zeilen in der</span></div>
+<div class="ln" data-step="70">                            <span class="p">Aufgabenliste. Der Rest bleibt im Kopf.</span></div>
+<div class="ln" data-step="90"></div>
+<div class="ln" data-step="90">                            <span class="k">lösung:</span></div>
+<div class="ln" data-step="70">                            <span class="p">Auf der Rückfahrt eine Sprachnachricht in</span></div>
+<div class="ln" data-step="70">                            <span class="p">Teams, 90 Sekunden, ohne Ordnung. Der</span></div>
+<div class="ln" data-step="70">                            <span class="p">Assistent macht daraus Termine, Aufgaben und</span></div>
+<div class="ln" data-step="70">                            <span class="p">Notizen am Dokument und zitiert alles, was er</span></div>
+<div class="ln" data-step="70">                            <span class="p">nicht zuordnen konnte. Geschrieben wird erst</span></div>
+<div class="ln" data-pause="560" data-step="70">                            <span class="p">nach Bestätigung.</span></div>
 <div class="ln" data-step="170"></div>
 <div class="ln cmd"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq show</span><span class="c2"> --rsvp</span></span></div>
 <div class="ln" data-step="210"></div>
@@ -288,7 +361,7 @@ html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 <div class="ln" data-step="140"><span class="k">deadline:  </span><span class="v">2026-09-18</span></div>
 <div class="ln" data-step="140" data-pause="460"><span class="k">zugang:    </span><span class="v">persönliche einladung</span></div>
 <div class="ln" data-step="170"></div>
-<div class="ln end"><span class="ps">aiqon ~ % </span><span class="caret"></span></div></div></div></div><section class="clock hid" data-step="300"><span class="lab">countdown to doors open</span><span class="cd" data-until="2026-10-22T13:00:00+02:00" aria-live="off">T-055:00:00:00</span><span class="fmt">dd:hh:mm:ss</span></section><footer class="status"><span class="when-rsvp">RSVP bis 18.09.2026</span><span class="grow"></span><button type="button" data-skip>Ausgabe &uuml;berspringen</button><button type="button" data-replay>Neu starten</button><img class="mark" src="assets/accilium-logo-white.svg" alt="accilium"></footer></div></main>
+<div class="ln end"><span class="ps">aiqon ~ % </span><span class="caret"></span></div></div></div></div><section class="clock hid" data-step="300"><span class="lab">countdown to doors open</span><span class="cd" data-until="2026-10-22T13:00:00+02:00" aria-live="off">T-044:00:00:00</span><span class="fmt">dd:hh:mm:ss</span></section><footer class="status"><span class="when-rsvp">RSVP bis 18.09.2026</span><span class="grow"></span><button type="button" data-skip>Ausgabe &uuml;berspringen</button><button type="button" data-replay>Neu starten</button><img class="mark" src="assets/accilium-logo-white.svg" alt="accilium"></footer></div></main>
 <script src="boot.js"></script>
 </body>
 </html>
