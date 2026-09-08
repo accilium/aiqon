@@ -218,22 +218,38 @@
     out(html + "</span>", "cmd");
   }
 
+  /* Ein Wort reicht: facts, programm, rsvp. Die lange Form mit
+     aiq show -- geht weiter, sie steht ja oben auf der Seite. */
   var SHOW = {
-    "--facts": "facts", "--what-to-expect": "expect", "--programm": "programm",
-    "--programm --detail": "detail", "--use-cases": "detail", "--rsvp": "rsvp"
+    "facts": "facts", "fakten": "facts", "hard facts": "facts",
+    "what-to-expect": "expect", "expect": "expect", "format": "expect",
+    "programm": "programm", "program": "programm", "agenda": "programm",
+    "programm detail": "detail", "programm --detail": "detail", "detail": "detail",
+    "details": "detail", "use-cases": "detail", "use cases": "detail", "cases": "detail",
+    "speaker": "detail", "rsvp": "rsvp", "zugang": "rsvp", "deadline": "rsvp",
+    "logo": "logo", "all": "all", "alles": "all"
   };
 
+  function show(key) {
+    if (key === "all") {
+      ["logo", "facts", "expect", "programm", "detail", "rsvp"].forEach(block);
+      return true;
+    }
+    return block(key);
+  }
+
   function help() {
-    outText("aiq show --facts            datum, ort, garage", "p");
-    outText("aiq show --what-to-expect   das format in drei zeilen", "p");
-    outText("aiq show --programm         der nachmittag", "p");
-    outText("aiq show --programm --detail  fireside chat und die drei use cases", "p");
-    outText("aiq show --rsvp             frist und zugang", "p");
-    outText("aiq show --all              alles noch einmal", "p");
-    outText("aiq countdown               bis doors open", "p");
-    outText("aiq render logo             das rasterlogo", "p");
-    outText("cat offizielle-einladung.md  die seite von vorne", "p");
-    outText("clear                       bildschirm leeren", "p");
+    outText("facts        datum, ort, garage", "p");
+    outText("format       was einen erwartet", "p");
+    outText("programm     der nachmittag", "p");
+    outText("detail       fireside chat und die drei use cases", "p");
+    outText("rsvp         frist und zugang", "p");
+    outText("countdown    bis doors open", "p");
+    outText("logo         das rasterlogo", "p");
+    outText("all          alles noch einmal", "p");
+    outText("replay       die seite von vorne", "p");
+    outText("clear        bildschirm leeren", "p");
+    outText("aiq show --facts und die anderen langen formen gehen auch.", "dim");
   }
 
   function pad2(n) { return pad(n, 2); }
@@ -248,32 +264,25 @@
     if (cmd === "help" || cmd === "aiq" || cmd === "aiq help" || cmd === "aiq --help"
         || cmd === "?" || cmd === "man aiq") return help();
 
-    if (cmd.indexOf("aiq show") === 0) {
-      var flags = cmd.slice(8).trim();
-      if (flags === "--all") {
-        ["logo", "facts", "expect", "programm", "detail", "rsvp"].forEach(function (n, i) {
-          block(n);
-        });
-        return;
-      }
-      if (SHOW[flags]) { block(SHOW[flags]); return; }
-      if (!flags) return outText("aiq show: welchen teil? help zeigt die liste.", "err");
-      return outText("aiq show: unbekannte option " + flags + ". help zeigt die liste.", "err");
-    }
-    if (cmd === "aiq render logo" || cmd.indexOf("aiq render logo ") === 0) {
-      block("logo"); return;
-    }
-    if (cmd === "aiq countdown" || cmd === "countdown") {
+    /* Praefixe abstreifen: aiq show --facts, show facts, aiq facts, --facts */
+    var key = cmd.replace(/^aiq\s+/, "").replace(/^(show|render)\s+/, "")
+      .replace(/(^|\s)--/g, "$1").replace(/\s+/g, " ").trim();
+    if (key.indexOf("logo") === 0) key = "logo";
+    if (SHOW[key]) { show(SHOW[key]); return; }
+    if (cmd === "aiq show" || cmd === "show")
+      return outText("show: welchen teil? help zeigt die liste.", "err");
+    if (cmd.indexOf("aiq show") === 0 || cmd.indexOf("show ") === 0)
+      return outText("show: " + key + " kenne ich nicht. help zeigt die liste.", "err");
+    if (key === "countdown") {
       var c = document.querySelector("[data-until]");
       out('<span class="k">doors open: </span><span class="v">'
           + esc(c ? c.textContent : "") + "</span>");
       return;
     }
-    if (cmd === "aiq rsvp" || cmd === "rsvp") { block("rsvp"); return; }
     if (cmd === "ls" || cmd === "ls -la" || cmd === "ls -l" || cmd === "dir")
       return outText("offizielle-einladung.md", "v");
     if (cmd === "cat offizielle-einladung.md" || cmd === "cat offizielle-einladung"
-        || cmd === "aiq replay") return start();
+        || key === "replay" || key === "restart") return start();
     if (cmd.indexOf("cat ") === 0)
       return outText("cat: " + text.slice(4) + ": no such file. ls zeigt, was da ist.", "err");
     if (cmd === "pwd") return outText("/aiqon", "v");
