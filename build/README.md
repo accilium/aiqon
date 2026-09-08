@@ -23,6 +23,11 @@ Häuserregeln, keine Kalenderdatei.
 Irgendwohin klicken oder eine Taste drücken springt ans Ende.
 „Neu starten" in der Fußleiste spielt es nochmal.
 
+Danach nimmt der letzte Prompt Eingaben an. `help` zeigt die Befehle, die
+Ausgabe eines Blocks wird aus dem Puffer kopiert. Die Blöcke sind dafür in
+`content.py` per `cmd(..., name=...)` markiert, `boot.js` findet sie über
+`data-block`. Cursor bleibt die Blockmarke, der native Caret ist unsichtbar.
+
 ## Bauen
 
     python3 site/build.py

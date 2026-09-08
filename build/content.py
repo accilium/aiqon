@@ -38,14 +38,19 @@ def blank(step=90):
     return ln("", step=step)
 
 
-def cmd(head, tail=""):
-    """Prompt plus Befehl. Der Befehl wird Zeichen fuer Zeichen getippt."""
+def cmd(head, tail="", name=None):
+    """Prompt plus Befehl. Der Befehl wird Zeichen fuer Zeichen getippt.
+    name: Schluessel, unter dem die Shell am Ende der Seite die Ausgabe
+    dieses Blocks noch einmal ausgeben kann."""
     inner = ('<span class="ps">aiqon ~ % </span>'
              '<span class="cm" data-type>'
              f'<span class="c1">{esc(head)}</span>')
     if tail:
         inner += f'<span class="c2">{esc(tail)}</span>'
-    return ln(inner + "</span>", cls="cmd")
+    line = ln(inner + "</span>", cls="cmd")
+    if name:
+        line = line.replace('class="ln cmd"', f'class="ln cmd" data-block="{name}"', 1)
+    return line
 
 
 def kv(key, value, step=78, pause=None, href=None):
@@ -101,7 +106,7 @@ def slot(time, title, ph_key=None, tail=None, strong=False, step=96, pause=None,
 # Ein Block ist ein Befehl plus seine Ausgabe.
 
 BLOCK_LOGO = [
-    cmd("aiq render logo", " --über den Dächern Wiens --scale 1"),
+    cmd("aiq render logo", " --über den Dächern Wiens --scale 1", name="logo"),
     blank(step=340),
     *[ln(f'<span class="lg">{esc(r)}</span>', cls="logo", step=52) for r in LOGO],
     blank(step=170),
@@ -110,7 +115,7 @@ BLOCK_LOGO = [
 ]
 
 BLOCK_FACTS = [
-    cmd("aiq show", " --facts"),
+    cmd("aiq show", " --facts", name="facts"),
     blank(step=210),
     fence(),
     kv("event:", "aIQon #1 VIENNA"),
@@ -126,7 +131,7 @@ BLOCK_FACTS = [
 ]
 
 BLOCK_EXPECT = [
-    cmd("aiq show", " --what-to-expect"),
+    cmd("aiq show", " --what-to-expect", name="expect"),
     blank(step=210),
     head2("No Slides, Live Demos only"),
     blank(step=140),
@@ -139,7 +144,7 @@ BLOCK_EXPECT = [
 ]
 
 BLOCK_PROGRAMM = [
-    cmd("aiq show", " --programm"),
+    cmd("aiq show", " --programm", name="programm"),
     blank(step=210),
     head2("programm"),
     blank(step=140),
@@ -228,7 +233,7 @@ CASES = [
 ]
 
 BLOCK_CASES = [
-    cmd("aiq show", " --programm --detail"),
+    cmd("aiq show", " --programm --detail", name="detail"),
     blank(step=210),
     head2("fireside chat + q&a"),
     blank(step=140),
@@ -249,7 +254,7 @@ BLOCK_CASES[-1] = BLOCK_CASES[-1].replace('class="ln"', 'class="ln" data-pause="
 # noch Mailadresse. Die Zeile "zugang" ist die geschlossene Tuer: sie sagt,
 # dass es nichts anzuklicken gibt.
 BLOCK_RSVP = [
-    cmd("aiq show", " --rsvp"),
+    cmd("aiq show", " --rsvp", name="rsvp"),
     blank(step=210),
     head2("rsvp"),
     blank(step=140),

@@ -84,7 +84,7 @@
 
     (function next() {
       if (id !== run) return;
-      if (i >= lines.length) { root.classList.add("done"); return; }
+      if (i >= lines.length) { root.classList.add("done"); armShell(); focusShell(); return; }
 
       var line = lines[i++];
       reveal(line);
@@ -109,6 +109,7 @@
       if (t) t.classList.remove("typing");
     });
     root.classList.add("done");
+    armShell();
   }
 
   function start() {
@@ -118,6 +119,10 @@
     root.classList.remove("done");
     window.scrollTo(0, 0);
     lines.forEach(function (l) { l.classList.add("hid"); });
+    if (buf) [].slice.call(buf.querySelectorAll(".ln")).forEach(function (l) {
+      if (lines.indexOf(l) < 0) l.parentNode.removeChild(l);
+    });
+    if (live) live.textContent = "";
     if (still.matches) return finish();
     play(run);
   }
@@ -131,9 +136,19 @@
   });
 
   document.addEventListener("pointerdown", function (e) {
-    if (root.classList.contains("done")) return;
     if (e.target.closest("a, button")) return;
+    if (root.classList.contains("done")) {
+      if (e.target.closest(".term")) setTimeout(function () { focusShell(true); }, 0);
+      return;
+    }
     finish();
+  });
+  /* Eine Taste nach dem Hochfahren landet im Prompt, auch ohne Klick. */
+  document.addEventListener("keydown", function (e) {
+    if (!root.classList.contains("done") || !live) return;
+    if (document.activeElement === live) return;
+    if (e.altKey || e.metaKey || e.ctrlKey || e.key.length !== 1) return;
+    live.focus({ preventScroll: true }); place();
   });
 
   ["wheel", "touchmove"].forEach(function (ev) {
@@ -142,6 +157,208 @@
 
   if (skipBtn) skipBtn.addEventListener("click", finish);
   if (replayBtn) replayBtn.addEventListener("click", start);
+
+
+  /* -------------------------------------------------- Shell
+     Nach dem Hochfahren nimmt der letzte Prompt Eingaben an. Die Befehle
+     sind die, die die Seite beim Hochfahren selbst benutzt hat; ihre
+     Ausgabe wird aus dem Puffer kopiert, nichts steht doppelt im HTML. */
+
+  var buf = document.querySelector(".buf");
+  var endLine = document.querySelector(".ln.end");
+  var live = null;
+  var history = [], hIdx = 0;
+
+  function esc(t) {
+    return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function out(html, cls) {
+    var d = document.createElement("div");
+    d.className = "ln" + (cls ? " " + cls : "");
+    d.innerHTML = html;
+    buf.insertBefore(d, endLine);
+    return d;
+  }
+
+  function outText(text, cls) {
+    return out('<span class="' + (cls || "p") + '">' + esc(text) + "</span>");
+  }
+
+  /* Ausgabe eines Blocks noch einmal: alle Zeilen nach seinem Befehl bis
+     zum naechsten Befehl, ohne die Leerzeile am Blockende. */
+  function block(name) {
+    var head = buf.querySelector('.cmd[data-block="' + name + '"]');
+    if (!head) return false;
+    var rows = [], el = head.nextElementSibling;
+    while (el && lines.indexOf(el) >= 0 && !el.classList.contains("cmd")
+           && !el.classList.contains("end")) {
+      rows.push(el);
+      el = el.nextElementSibling;
+    }
+    while (rows.length && !rows[rows.length - 1].textContent.trim()
+           && !rows[rows.length - 1].querySelector("img")) rows.pop();
+    rows.forEach(function (r) {
+      var c = r.cloneNode(true);
+      c.classList.remove("hid");
+      c.removeAttribute("data-step"); c.removeAttribute("data-pause");
+      buf.insertBefore(c, endLine);
+    });
+    return true;
+  }
+
+  function echoCmd(text) {
+    var parts = text.split(" "), head = [], tail = [];
+    parts.forEach(function (w) {
+      if (tail.length || w.charAt(0) === "-") tail.push(w); else head.push(w);
+    });
+    var html = '<span class="ps">aiqon ~ % </span><span class="cm">'
+      + '<span class="c1">' + esc(head.join(" ")) + "</span>";
+    if (tail.length) html += '<span class="c2"> ' + esc(tail.join(" ")) + "</span>";
+    out(html + "</span>", "cmd");
+  }
+
+  var SHOW = {
+    "--facts": "facts", "--what-to-expect": "expect", "--programm": "programm",
+    "--programm --detail": "detail", "--use-cases": "detail", "--rsvp": "rsvp"
+  };
+
+  function help() {
+    outText("aiq show --facts            datum, ort, garage", "p");
+    outText("aiq show --what-to-expect   das format in drei zeilen", "p");
+    outText("aiq show --programm         der nachmittag", "p");
+    outText("aiq show --programm --detail  fireside chat und die drei use cases", "p");
+    outText("aiq show --rsvp             frist und zugang", "p");
+    outText("aiq show --all              alles noch einmal", "p");
+    outText("aiq countdown               bis doors open", "p");
+    outText("aiq render logo             das rasterlogo", "p");
+    outText("cat offizielle-einladung.md  die seite von vorne", "p");
+    outText("clear                       bildschirm leeren", "p");
+  }
+
+  function pad2(n) { return pad(n, 2); }
+
+  function exec(raw) {
+    var text = raw.replace(/\s+/g, " ").trim();
+    echoCmd(text);
+    if (!text) return;
+    history.push(text); hIdx = history.length;
+    var cmd = text.toLowerCase();
+
+    if (cmd === "help" || cmd === "aiq" || cmd === "aiq help" || cmd === "aiq --help"
+        || cmd === "?" || cmd === "man aiq") return help();
+
+    if (cmd.indexOf("aiq show") === 0) {
+      var flags = cmd.slice(8).trim();
+      if (flags === "--all") {
+        ["logo", "facts", "expect", "programm", "detail", "rsvp"].forEach(function (n, i) {
+          block(n);
+        });
+        return;
+      }
+      if (SHOW[flags]) { block(SHOW[flags]); return; }
+      if (!flags) return outText("aiq show: welchen teil? help zeigt die liste.", "err");
+      return outText("aiq show: unbekannte option " + flags + ". help zeigt die liste.", "err");
+    }
+    if (cmd === "aiq render logo" || cmd.indexOf("aiq render logo ") === 0) {
+      block("logo"); return;
+    }
+    if (cmd === "aiq countdown" || cmd === "countdown") {
+      var c = document.querySelector("[data-until]");
+      out('<span class="k">doors open: </span><span class="v">'
+          + esc(c ? c.textContent : "") + "</span>");
+      return;
+    }
+    if (cmd === "aiq rsvp" || cmd === "rsvp") { block("rsvp"); return; }
+    if (cmd === "ls" || cmd === "ls -la" || cmd === "ls -l" || cmd === "dir")
+      return outText("offizielle-einladung.md", "v");
+    if (cmd === "cat offizielle-einladung.md" || cmd === "cat offizielle-einladung"
+        || cmd === "aiq replay") return start();
+    if (cmd.indexOf("cat ") === 0)
+      return outText("cat: " + text.slice(4) + ": no such file. ls zeigt, was da ist.", "err");
+    if (cmd === "pwd") return outText("/aiqon", "v");
+    if (cmd === "whoami") return outText("gast", "v");
+    if (cmd === "date") {
+      var d = new Date();
+      return outText(d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate())
+        + " " + pad2(d.getHours()) + ":" + pad2(d.getMinutes()), "v");
+    }
+    if (cmd === "clear" || cmd === "cls") {
+      lines.forEach(function (l) { l.classList.add("hid"); });
+      [].slice.call(buf.querySelectorAll(".ln")).forEach(function (l) {
+        if (l !== endLine && lines.indexOf(l) < 0) l.parentNode.removeChild(l);
+      });
+      endLine.classList.remove("hid");
+      window.scrollTo(0, 0);
+      return;
+    }
+    if (cmd === "exit" || cmd === "logout" || cmd === "quit")
+      return outText("logout: erst am 22.10. um 18:00.", "p");
+    if (cmd.indexOf("sudo") === 0)
+      return outText("gast is not in the sudoers file. this incident will be reported.", "err");
+    if (cmd === "rm -rf /" || cmd.indexOf("rm ") === 0)
+      return outText("rm: die einladung bleibt.", "err");
+    outText("aiqon: command not found: " + text.split(" ")[0] + ". help zeigt die befehle.", "err");
+  }
+
+  function armShell() {
+    if (live || !endLine) return;
+    var caret = endLine.querySelector(".caret");
+    live = document.createElement("span");
+    live.className = "cm live";
+    live.setAttribute("contenteditable", "true");
+    live.setAttribute("spellcheck", "false");
+    live.setAttribute("autocapitalize", "off");
+    live.setAttribute("autocorrect", "off");
+    live.setAttribute("aria-label", "Befehl eingeben, help zeigt die Liste");
+    endLine.insertBefore(live, caret);
+
+    live.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        var t = live.textContent;
+        live.textContent = "";
+        exec(t);
+        pinned = true;
+        follow(endLine);
+        live.focus();
+      } else if (e.key === "ArrowUp" && history.length) {
+        e.preventDefault();
+        hIdx = Math.max(0, hIdx - 1);
+        live.textContent = history[hIdx];
+        place();
+      } else if (e.key === "ArrowDown" && history.length) {
+        e.preventDefault();
+        hIdx = Math.min(history.length, hIdx + 1);
+        live.textContent = hIdx < history.length ? history[hIdx] : "";
+        place();
+      } else if (e.key === "l" && e.ctrlKey) {
+        e.preventDefault(); exec("clear");
+      }
+    });
+    live.addEventListener("input", function () {
+      if (/\n/.test(live.textContent)) live.textContent = live.textContent.replace(/\n/g, " ");
+    });
+    live.addEventListener("paste", function (e) {
+      e.preventDefault();
+      var t = (e.clipboardData || window.clipboardData).getData("text");
+      document.execCommand("insertText", false, t.replace(/\s+/g, " "));
+    });
+  }
+
+  function place() {
+    var r = document.createRange(), s = window.getSelection();
+    r.selectNodeContents(live); r.collapse(false);
+    s.removeAllRanges(); s.addRange(r);
+  }
+
+  var keyboard = window.matchMedia("(hover:hover) and (pointer:fine)");
+  function focusShell(force) {
+    if (!live || !root.classList.contains("done")) return;
+    if (!force && !keyboard.matches) return;
+    if (window.getSelection && String(window.getSelection())) return;
+    live.focus({ preventScroll: true });
+  }
 
   /* -------------------------------------------------- Seitlicher Rand
      Keine Zeile bricht um. Passt eine nicht in die Breite, scrollt der

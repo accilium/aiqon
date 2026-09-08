@@ -165,6 +165,14 @@ html.js .hid{display:none}
   text-decoration-color:var(--mint)}
 .lk:focus-visible{outline:1px solid var(--mint);outline-offset:3px}
 
+/* ---------------- Shell ----------------
+   Nach dem Hochfahren nimmt der letzte Prompt Eingaben an. boot.js macht
+   den Span editierbar; die Blockmarke dahinter bleibt der Cursor. */
+.cm.live{outline:none;color:var(--text);min-width:1px;display:inline-block;
+  caret-color:transparent;white-space:pre}
+.cm.live:empty::before{content:"";display:inline-block}
+.err{color:var(--teal)}
+
 @keyframes blink{50%{opacity:0}}
 .cm.typing::after,.caret::after{
   content:"\258C";color:var(--mint);
@@ -244,7 +252,7 @@ html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 </head>
 <body>
 <div class="bg" aria-hidden="true"></div>
-<main class="stage"><div class="term"><header class="bar"><i></i><i></i><i></i><span class="path">aiqon&nbsp;~&nbsp;/&nbsp;<b>offizielle-einladung.md</b></span><span class="when">DO 22.10.2026 &middot; JUWEL WIEN, 15. OG</span></header><div class="screen"><div class="pane"><div class="buf"><div class="ln cmd"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq render logo</span><span class="c2"> --über den Dächern Wiens --scale 1</span></span></div>
+<main class="stage"><div class="term"><header class="bar"><i></i><i></i><i></i><span class="path">aiqon&nbsp;~&nbsp;/&nbsp;<b>offizielle-einladung.md</b></span><span class="when">DO 22.10.2026 &middot; JUWEL WIEN, 15. OG</span></header><div class="screen"><div class="pane"><div class="buf"><div class="ln cmd" data-block="logo"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq render logo</span><span class="c2"> --über den Dächern Wiens --scale 1</span></span></div>
 <div class="ln" data-step="340"></div>
 <div class="ln logo" data-step="52"><span class="lg">                #####             #####################</span></div>
 <div class="ln logo" data-step="52"><span class="lg">                 #####           #######################</span></div>
@@ -259,7 +267,7 @@ html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 <div class="ln" data-step="170"></div>
 <div class="ln" data-step="110" data-pause="520"><span class="ok">✓</span><span class="dim"> aiq.svg rendered</span></div>
 <div class="ln" data-step="170"></div>
-<div class="ln cmd"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq show</span><span class="c2"> --facts</span></span></div>
+<div class="ln cmd" data-block="facts"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq show</span><span class="c2"> --facts</span></span></div>
 <div class="ln" data-step="210"></div>
 <div class="ln" data-step="78"><span class="fc">---</span></div>
 <div class="ln" data-step="78"><span class="k">event:    </span><span class="v">aIQon #1 VIENNA</span></div>
@@ -271,7 +279,7 @@ html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 <div class="ln" data-step="78"><span class="k">parking:  </span><a class="v lk" href="https://maps.app.goo.gl/AFxFrwgYQfp82En39" target="_blank" rel="noopener">Garage Praterstraße, BEST IN PARKING</a></div>
 <div class="ln" data-step="78" data-pause="520"><span class="fc">---</span></div>
 <div class="ln" data-step="170"></div>
-<div class="ln cmd"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq show</span><span class="c2"> --what-to-expect</span></span></div>
+<div class="ln cmd" data-block="expect"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq show</span><span class="c2"> --what-to-expect</span></span></div>
 <div class="ln" data-step="210"></div>
 <div class="ln" data-step="110" data-pause="200"><span class="hh">## </span><span class="h">No Slides, Live Demos only</span></div>
 <div class="ln" data-step="140"></div>
@@ -279,7 +287,7 @@ html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 <div class="ln" data-step="250"><span class="p">Echtbetrieb laufen. Sie erledigen Aufgaben, zu einem Bruchteil der Kosten.</span></div>
 <div class="ln" data-step="250" data-pause="560"><span class="p">Vorgestellt von den Menschen, die sie gebaut haben.</span></div>
 <div class="ln" data-step="170"></div>
-<div class="ln cmd"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq show</span><span class="c2"> --programm</span></span></div>
+<div class="ln cmd" data-block="programm"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq show</span><span class="c2"> --programm</span></span></div>
 <div class="ln" data-step="210"></div>
 <div class="ln" data-step="110" data-pause="200"><span class="hh">## </span><span class="h">programm</span></div>
 <div class="ln" data-step="140"></div>
@@ -293,7 +301,7 @@ html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 <div class="ln" data-step="96"><span class="t">15:30</span><span class="sp">   </span><span class="n">closing chat + q&amp;a         </span><span class="phg"><span class="ph">[ gäste:  </span><span class="tbd">tbd</span><span class="ph"> ]</span></span></div>
 <div class="ln" data-step="96" data-pause="560"><span class="ts">16:00</span><span class="sp">   </span><span class="ns">flying dinner + networking</span><span class="until">  -&gt;  18:00</span></div>
 <div class="ln" data-step="170"></div>
-<div class="ln cmd"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq show</span><span class="c2"> --programm --detail</span></span></div>
+<div class="ln cmd" data-block="detail"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq show</span><span class="c2"> --programm --detail</span></span></div>
 <div class="ln" data-step="210"></div>
 <div class="ln" data-step="110" data-pause="200"><span class="hh">## </span><span class="h">fireside chat + q&amp;a</span></div>
 <div class="ln" data-step="140"></div>
@@ -365,14 +373,14 @@ html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 <div class="ln" data-step="70">                            <span class="p">nicht zuordnen konnte. Geschrieben wird erst</span></div>
 <div class="ln" data-pause="560" data-step="70">                            <span class="p">nach Bestätigung.</span></div>
 <div class="ln" data-step="170"></div>
-<div class="ln cmd"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq show</span><span class="c2"> --rsvp</span></span></div>
+<div class="ln cmd" data-block="rsvp"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq show</span><span class="c2"> --rsvp</span></span></div>
 <div class="ln" data-step="210"></div>
 <div class="ln" data-step="110" data-pause="200"><span class="hh">## </span><span class="h">rsvp</span></div>
 <div class="ln" data-step="140"></div>
 <div class="ln" data-step="140"><span class="k">deadline:  </span><span class="v">2026-09-18</span></div>
 <div class="ln" data-step="140" data-pause="460"><span class="k">zugang:    </span><span class="v">persönliche einladung</span></div>
 <div class="ln" data-step="170"></div>
-<div class="ln end"><span class="ps">aiqon ~ % </span><span class="caret"></span></div></div></div></div><section class="clock hid" data-step="300"><span class="lab">countdown to doors open</span><span class="cd" data-until="2026-10-22T13:00:00+02:00" aria-live="off">T-044:00:00:00</span><span class="fmt">dd:hh:mm:ss</span></section><footer class="status"><span class="when-rsvp">RSVP bis 18.09.2026</span><span class="grow"></span><button type="button" data-skip>Ausgabe &uuml;berspringen</button><button type="button" data-replay>Neu starten</button><img class="mark" src="assets/accilium-logo-white.svg" alt="accilium"></footer></div></main>
+<div class="ln end"><span class="ps">aiqon ~ % </span><span class="caret"></span></div></div></div></div><section class="clock hid" data-step="300"><span class="lab">countdown to doors open</span><span class="cd" data-until="2026-10-22T13:00:00+02:00" aria-live="off">T-043:00:00:00</span><span class="fmt">dd:hh:mm:ss</span></section><footer class="status"><span class="when-rsvp">RSVP bis 18.09.2026</span><span class="grow"></span><button type="button" data-skip>Ausgabe &uuml;berspringen</button><button type="button" data-replay>Neu starten</button><img class="mark" src="assets/accilium-logo-white.svg" alt="accilium"></footer></div></main>
 <script src="boot.js"></script>
 </body>
 </html>
