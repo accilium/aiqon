@@ -15,6 +15,12 @@ format, the programme and the RSVP date. A countdown to doors open sits at the
 bottom. The whole sequence takes about twelve seconds; a click or a keypress
 skips to the end. `prefers-reduced-motion` shows everything at once.
 
+Once the boot has finished, the last prompt takes input. `help` lists the
+commands; they are the ones the page ran itself (`aiq show --programm`,
+`aiq countdown`, `clear`), and their output is copied from the buffer above,
+so nothing is stored twice. Every keystroke lands in the prompt, tapping the
+window focuses it on a phone.
+
 The full text is in the HTML. JavaScript only reveals it step by step, so
 search engines, screen readers and anyone with JavaScript off get the complete
 page immediately.

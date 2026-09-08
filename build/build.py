@@ -217,6 +217,14 @@ html.js .hid{display:none}
   text-decoration-color:var(--mint)}
 .lk:focus-visible{outline:1px solid var(--mint);outline-offset:3px}
 
+/* ---------------- Shell ----------------
+   Nach dem Hochfahren nimmt der letzte Prompt Eingaben an. boot.js macht
+   den Span editierbar; die Blockmarke dahinter bleibt der Cursor. */
+.cm.live{outline:none;color:var(--text);min-width:1px;display:inline-block;
+  caret-color:transparent;white-space:pre}
+.cm.live:empty::before{content:"";display:inline-block}
+.err{color:var(--teal)}
+
 @keyframes blink{50%{opacity:0}}
 .cm.typing::after,.caret::after{
   content:"\\258C";color:var(--mint);
