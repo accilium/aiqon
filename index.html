@@ -66,7 +66,7 @@ body{
   /* Innenbreite, die dem Puffer bleibt. 16px Abzug fuer den Scrollbalken. */
   --avail:calc(100vw - 2 * var(--pad) - 54px - 16px);
   --fs-w:calc(var(--avail) / 49.50);
-  --fs-h:calc((100svh - 2 * var(--pad) - 168px) / 179.36);
+  --fs-h:calc((100svh - 2 * var(--pad) - 168px) / 191.52);
   --fs:clamp(9.5px, var(--fs-w), 16px);
   --gut:calc(var(--fs) * 3.3);
   margin:auto;
@@ -88,9 +88,9 @@ body{
    --fs-w: so gross, dass die breiteste Zeile plus Nummernspalte in die
            Viewportbreite passt.
    --fs-h: so gross, dass alle Zeilen plus Leisten in die Viewporthoehe
-           passen. Wird nur ab 1960px Viewporthoehe benutzt, weil
+           passen. Wird nur ab 2076px Viewporthoehe benutzt, weil
            die Schrift darunter zu klein wuerde. Dann scrollt die Seite. */
-@media (min-height:1960px){
+@media (min-height:2076px){
   .term{--fs:clamp(9.5px, min(var(--fs-w), var(--fs-h)), 16px)}
 }
 .buf{
@@ -285,7 +285,7 @@ html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 <div class="ln" data-step="140"></div>
 <div class="ln" data-step="96"><span class="ts">13:00</span><span class="sp">   </span><span class="ns">empfang</span></div>
 <div class="ln" data-step="96"><span class="t">13:30</span><span class="sp">   </span><span class="n">begrüßung</span></div>
-<div class="ln" data-step="96"><span class="t">13:40</span><span class="sp">   </span><span class="n">fireside chat + q&amp;a        </span><span class="phg"><span class="ph">[ gäste:  </span><span class="tbd">tbd</span><span class="ph"> ]</span></span></div>
+<div class="ln" data-step="96"><span class="t">13:40</span><span class="sp">   </span><span class="n">fireside chat + q&amp;a        </span><span class="dim">Peter Allan</span></div>
 <div class="ln" data-step="96"><span class="t">14:10</span><span class="sp">   </span><span class="n">live use case I</span></div>
 <div class="ln" data-step="96"><span class="ts">14:30</span><span class="sp">   </span><span class="ns">coffee break</span></div>
 <div class="ln" data-step="96"><span class="t">14:50</span><span class="sp">   </span><span class="n">live use case II</span></div>
@@ -293,8 +293,16 @@ html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 <div class="ln" data-step="96"><span class="t">15:30</span><span class="sp">   </span><span class="n">closing chat + q&amp;a         </span><span class="phg"><span class="ph">[ gäste:  </span><span class="tbd">tbd</span><span class="ph"> ]</span></span></div>
 <div class="ln" data-step="96" data-pause="560"><span class="ts">16:00</span><span class="sp">   </span><span class="ns">flying dinner + networking</span><span class="until">  -&gt;  18:00</span></div>
 <div class="ln" data-step="170"></div>
-<div class="ln cmd"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq show</span><span class="c2"> --use-cases</span></span></div>
+<div class="ln cmd"><span class="ps">aiqon ~ % </span><span class="cm" data-type><span class="c1">aiq show</span><span class="c2"> --programm --detail</span></span></div>
 <div class="ln" data-step="210"></div>
+<div class="ln" data-step="110" data-pause="200"><span class="hh">## </span><span class="h">fireside chat + q&amp;a</span></div>
+<div class="ln" data-step="140"></div>
+<div class="ln fig" data-step="140"><img class="pic a" src="assets/team/peter-allan.png" alt="Peter Allan">                            <span class="h">Peter Allan</span></div>
+<div class="ln" data-step="90"></div>
+<div class="ln" data-step="90"></div>
+<div class="ln" data-step="90"></div>
+<div class="ln" data-step="90"></div>
+<div class="ln" data-step="140"></div>
 <div class="ln" data-step="110" data-pause="200"><span class="hh">## </span><span class="h">live use case I</span></div>
 <div class="ln" data-step="140"></div>
 <div class="ln fig" data-step="140"><img class="pic a" src="assets/team/leonhard-kuehne-hellmessen.png" alt="Leonhard Kühne-Hellmessen"><img class="pic b" src="assets/team/mary-koryakina.png" alt="Mary Koryakina">                            <span class="h">Der Projektmanager, der nie schläft</span></div>

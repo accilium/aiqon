@@ -74,8 +74,9 @@ def fence(step=78, pause=None):
     return ln('<span class="fc">---</span>', step=step, pause=pause)
 
 
-def slot(time, title, ph_key=None, tail=None, strong=False, step=96, pause=None):
-    """Programmzeile. Titel ab Spalte 9, Platzhalter ab Spalte 36."""
+def slot(time, title, ph_key=None, tail=None, strong=False, step=96, pause=None,
+         who=None):
+    """Programmzeile. Titel ab Spalte 9, Platzhalter oder Name ab Spalte 36."""
     row = (f'<span class="{"ts" if strong else "t"}">{esc(time)}</span>'
            f'<span class="sp">   </span>')
     n = "ns" if strong else "n"
@@ -86,6 +87,9 @@ def slot(time, title, ph_key=None, tail=None, strong=False, step=96, pause=None)
         row += (f'<span class="phg"><span class="ph">'
                 f'{esc(("[ " + ph_key + ":").ljust(10))}</span>'
                 f'<span class="tbd">tbd</span><span class="ph"> ]</span></span>')
+    elif who:
+        row += f'<span class="{n}">{esc(title.ljust(27))}</span>'
+        row += f'<span class="dim">{esc(who)}</span>'
     else:
         row += f'<span class="{n}">{esc(title)}</span>'
         if tail:
@@ -141,7 +145,7 @@ BLOCK_PROGRAMM = [
     blank(step=140),
     slot("13:00", "empfang", strong=True),
     slot("13:30", "begrüßung"),
-    slot("13:40", "fireside chat + q&a", ph_key="gäste"),
+    slot("13:40", "fireside chat + q&a", who="Peter Allan"),
     slot("14:10", "live use case I"),
     slot("14:30", "coffee break", strong=True),
     slot("14:50", "live use case II"),
@@ -187,6 +191,7 @@ def case_lines(title, pair, problem, solution):
     return rows
 
 
+PETER = ("peter-allan", "Peter Allan")
 LEO = ("leonhard-kuehne-hellmessen", "Leonhard Kühne-Hellmessen")
 MARY = ("mary-koryakina", "Mary Koryakina")
 ALEX = ("alex-rinner", "Alex Rinner")
@@ -224,7 +229,15 @@ CASES = [
      "wird erst nach Bestätigung."),
 ]
 
-BLOCK_CASES = [cmd("aiq show", " --use-cases"), blank(step=210)]
+BLOCK_CASES = [
+    cmd("aiq show", " --programm --detail"),
+    blank(step=210),
+    head2("fireside chat + q&a"),
+    blank(step=140),
+    fig("Peter Allan", (PETER,)),
+    *[blank() for _ in range(FIG_LINES - 1)],
+    blank(step=140),
+]
 for i, (slot_name, title, pair, problem, solution) in enumerate(CASES):
     if i:
         BLOCK_CASES.append(blank(step=140))

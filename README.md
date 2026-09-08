@@ -22,8 +22,8 @@ page immediately.
 The format in one line: AI solutions that are in operation today, shown live by
 the people who built them. No slides, no concepts, no vendor pitch.
 
-The three live use cases are on the page with title, problem, solution and the
-two presenters. Their portraits in `assets/team/` are rastered the same way as
+Peter Allan for the fireside chat and the three live use cases are on the page with title, problem, solution and the
+two presenters. The portraits in `assets/team/` are rastered the same way as
 the background image, in the page palette, 144 px, 5 to 9 KB each. The texts
 are placeholders until the shortlist is final; their source is
 `demo-candidates.md` in the private `aiqon-orga` repository.
@@ -44,8 +44,8 @@ does. Two consequences worth knowing before editing:
   nothing ever wraps on a desktop screen. The width depends only on the
   viewport, never on the content, so it cannot jump while the page boots.
 - **On a tall enough viewport the page fits on one screen.** It scales the
-  type down so all 118 lines plus the bars fit, and the window shrinks with
-  it. Since the use cases went in, that needs about 1960 px, so on a normal
+  type down so all 125 lines plus the bars fit, and the window shrinks with
+  it. Since the use cases went in, that needs about 2060 px, so on a normal
   screen the type stays at 16 px and the page scrolls.
 
 ## Local preview

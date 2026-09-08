@@ -11,8 +11,9 @@ Venue und Parkgarage sind mit Google Maps verlinkt. Der Wert bleibt weiß
 wie die anderen Werte, nur die Unterstreichung ist petrol, damit die
 Spalte ruhig bleibt.
 
-Inhaltlich steht drauf, was auch auf dem Flyer steht, plus die drei Live
-Use Cases mit Titel, Problem, Lösung und Präsentier-Paar. Keine
+Inhaltlich steht drauf, was auch auf dem Flyer steht, plus Peter Allan
+zum Fireside Chat und die drei Live Use Cases mit Titel, Problem, Lösung
+und Präsentier-Paar. Keine
 Häuserregeln, keine Kalenderdatei.
 
 ## Öffnen
@@ -44,7 +45,7 @@ danach das PNG als JPEG nach `site/assets/og.jpg`.
 | `build.py` | Farben, Zeilenraster, Layout, Gerüst. |
 | `boot.js` | Tippen, Zeilen einblenden, Überspringen, Countdown. |
 | `assets/bg-juwel.png` | Der leere Saal im 15. OG, gerastert, 540 × 675, 278 KB. |
-| `assets/team/` | Fünf Portraits, 144 × 144, gerastert in der Seitenpalette, 5 bis 9 KB je Bild. Quelle: `portraits/dither.py` im Arbeitsordner der Brand Domain. |
+| `assets/team/` | Sechs Portraits, 144 × 144, gerastert in der Seitenpalette, 5 bis 9 KB je Bild. Quelle: `portraits/dither.py` im Arbeitsordner der Brand Domain. |
 | `assets/fonts/` | JetBrains Mono, latin subset, 8 KB je Schnitt, selbst gehostet. |
 | `assets/og.jpg` | Vorschaubild 1200 × 630 für Mail und Social. |
 
