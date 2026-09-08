@@ -22,6 +22,12 @@ page immediately.
 The format in one line: AI solutions that are in operation today, shown live by
 the people who built them. No slides, no concepts, no vendor pitch.
 
+Peter Allan for the fireside chat and the three live use cases are on the page with title, problem, solution and the
+two presenters. The portraits in `assets/team/` are rastered the same way as
+the background image, in the page palette, 144 px, 5 to 9 KB each. The texts
+are placeholders until the shortlist is final; their source is
+`demo-candidates.md` in the private `aiqon-orga` repository.
+
 ## Attendance
 
 aIQon is invitation-only. Guests are invited personally, by mail, with a
@@ -33,13 +39,14 @@ address on this page.
 The page has one column and a fixed character grid, the way the printed flyer
 does. Two consequences worth knowing before editing:
 
-- **The window width follows the widest line in the content**, currently 74
+- **The window width follows the widest line in the content**, currently 77
   characters. Add a longer line and the window gets wider on its own so that
   nothing ever wraps on a desktop screen. The width depends only on the
   viewport, never on the content, so it cannot jump while the page boots.
-- **From 1080 px of viewport height the page fits on one screen.** It scales
-  the type down so all 57 lines plus the bars fit, and the window shrinks with
-  it. Below that the type stays at 16 px and the page scrolls.
+- **On a tall enough viewport the page fits on one screen.** It scales the
+  type down so all 125 lines plus the bars fit, and the window shrinks with
+  it. Since the use cases went in, that needs about 2060 px, so on a normal
+  screen the type stays at 16 px and the page scrolls.
 
 ## Local preview
 
