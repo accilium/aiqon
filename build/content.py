@@ -258,8 +258,6 @@ BLOCK_RSVP = [
     blank(step=210),
     head2("rsvp"),
     blank(step=140),
-    ln('<span class="k">deadline:  </span><span class="v">2026-09-18</span>',
-       step=140),
     ln('<span class="k">zugang:    </span>'
        '<span class="v">persönliche einladung</span>', step=140, pause=460),
 ]

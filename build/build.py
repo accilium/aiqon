@@ -297,7 +297,6 @@ html.js .hid{display:none}
   padding:3px 9px;cursor:pointer;white-space:nowrap}
 .status button:hover{color:var(--mint);border-color:rgba(84,219,192,.45)}
 .status button:focus-visible{outline:1px solid var(--mint);outline-offset:2px}
-@media (max-width:430px){.status .when-rsvp{display:none}}
 html.done [data-skip],html:not(.done) [data-replay]{display:none}
 html:not(.js) [data-skip],html:not(.js) [data-replay]{display:none}
 """
@@ -352,7 +351,6 @@ CLOCK = ('<section class="clock hid" data-step="300">'
          '</section>')
 
 STATUS = ('<footer class="status">'
-          '<span class="when-rsvp">RSVP bis 18.09.2026</span>'
           '<span class="grow"></span>'
           '<button type="button" data-skip>Ausgabe &uuml;berspringen</button>'
           '<button type="button" data-replay>Neu starten</button>'

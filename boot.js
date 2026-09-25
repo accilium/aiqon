@@ -226,7 +226,7 @@
     "programm": "programm", "program": "programm", "agenda": "programm",
     "programm detail": "detail", "programm --detail": "detail", "detail": "detail",
     "details": "detail", "use-cases": "detail", "use cases": "detail", "cases": "detail",
-    "speaker": "detail", "rsvp": "rsvp", "zugang": "rsvp", "deadline": "rsvp",
+    "speaker": "detail", "rsvp": "rsvp", "zugang": "rsvp",
     "logo": "logo", "all": "all", "alles": "all"
   };
 
@@ -243,7 +243,7 @@
     outText("format       was einen erwartet", "p");
     outText("programm     der nachmittag", "p");
     outText("detail       fireside chat und die drei use cases", "p");
-    outText("rsvp         frist und zugang", "p");
+    outText("rsvp         zugang", "p");
     outText("countdown    bis doors open", "p");
     outText("logo         das rasterlogo", "p");
     outText("all          alles noch einmal", "p");
