@@ -194,7 +194,7 @@ def case_lines(title, pair, problem, solution):
     return rows
 
 
-PETER = ("peter-allan", "Peter Allan", "")
+PETER = ("peter-allan", "Peter Allan", "Managing Partner")
 LEO = ("leonhard-kuehne-hellmessen", "Leonhard Kühne-Hellmessen", "Principal")
 MARY = ("mary-koryakina", "Mary Koryakina", "Forward Deployed Engineer")
 ALEX = ("alex-rinner", "Alex Rinner", "Senior Manager")
@@ -238,7 +238,9 @@ BLOCK_CASES = [
     head2("fireside chat + q&a"),
     blank(step=140),
     fig("Peter Allan", (PETER,)),
-    *[blank() for _ in range(FIG_LINES - 1)],
+    ln(f'{" " * FIG_INDENT}<span class="dim">Managing Partner</span>', step=90),
+    ln(f'{" " * FIG_INDENT}<span class="dim">Technology Practice Lead</span>', step=90),
+    *[blank() for _ in range(FIG_LINES - 3)],
     blank(step=140),
 ]
 for i, (slot_name, title, pair, problem, solution) in enumerate(CASES):
